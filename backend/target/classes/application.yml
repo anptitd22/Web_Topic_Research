@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  address: 0.0.0.0
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: ${ME_CONFIG_MONGODB_PORT:27017}
+      database: ${ME_CONFIG_MONGODB_AUTHDATABASE:research_articles_db}
+      username: ${ME_CONFIG_MONGODB_ADMINUSERNAME:root}
+      password: ${ME_CONFIG_MONGODB_ADMINPASSWORD:123456}
+      authentication-database: ${ME_CONFIG_BASICAUTH_USERNAME:admin}
+      auto-index-creation: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /api/v1/actuator
+      exposure:
+        include: health, info, metrics, httptrace, loggers, threaddump, env, beans
+  
+minio:
+  url: http://localhost:9000
+  accessKey: admin
+  secretKey: admin12345
+  bucket: research-articles-bucket
+  region: us-east-1
+  publicBaseUrl: http://localhost:9000
+
+jwt:
+  expiration: 2592000 #30days: 30*24*60*60
+  secretKey: FfyEJyyYieuIdNN99gm8ibEik38pjPBk7elv2qz4utE=
+
+api:
+  prefix: /api
