@@ -29,16 +29,16 @@ management:
         include: health, info, metrics, httptrace, loggers, threaddump, env, beans
   
 minio:
-  url: http://localhost:9000
-  accessKey: admin
-  secretKey: admin12345
-  bucket: research-articles-bucket
-  region: us-east-1
-  publicBaseUrl: http://localhost:9000
+  url: ${MINIO_URL:http://localhost:9000}
+  accessKey: ${MINIO_ROOT_USER:admin}
+  secretKey: ${MINIO_ROOT_PASSWORD:admin12345}
+  bucket: ${MINIO_BUCKET:research-articles-bucket}
+  region: ${MINIO_REGION:us-east-1}
+  publicBaseUrl: ${MINIO_PUBLIC_BASE_URL:http://localhost:9000}
 
 jwt:
   expiration: 2592000 #30days: 30*24*60*60
-  secretKey: FfyEJyyYieuIdNN99gm8ibEik38pjPBk7elv2qz4utE=
+  secretKey: ${SECRET_KEY:FfyEJyyYieuIdNN99gm8ibEik38pjPBk7elv2qz4utE}
 
 api:
   prefix: /api
