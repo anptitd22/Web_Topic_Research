@@ -1,6 +1,8 @@
 package com.example.researcharticles.dto.response;
 
-import com.example.researcharticles.model.Role;
+import java.time.Instant;
+
+import com.example.researcharticles.constant.RoleName;
 
 import lombok.*;
 
@@ -21,11 +23,15 @@ public class UserResponse {
 
     private String phone;
 
-    String avatarKey;
+    private String avatarKey;
 
-    String avatarUrl;
+    private String avatarUrl;
 
-    private Role role;
+    private RoleName role;
 
     private Boolean isActive;
+
+    private Instant createdAt;
+
+    private Instant updatedAt;
 }

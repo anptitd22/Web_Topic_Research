@@ -129,6 +129,11 @@ const ArticleDetail = () => {
           <div>Không có tài liệu để hiển thị.</div>
         )}
       </div>
+      <div style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+        {article.createdAt && <p><em>Created at: {new Date(article.createdAt).toLocaleString()}</em></p>}
+        {article.updatedAt && <p><em>Updated at: {new Date(article.updatedAt).toLocaleString()}</em></p>}
+        {article.userName && <p><em>Upload by: {article.userName}</em></p>}
+      </div>
 
       <div style={{ marginTop: 16 }}>
         <Link to="/">Quay lại danh sách</Link>{' '}

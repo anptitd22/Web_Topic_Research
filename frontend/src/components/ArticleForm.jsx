@@ -12,7 +12,7 @@ const ArticleForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
-  const [fileKey, setFileKey] = useState('');     // ⭐ GIỮ fileKey ở state
+  const [fileKey, setFileKey] = useState('');    
   const [fileUrl, setFileUrl] = useState('');
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(isEdit);
@@ -36,8 +36,8 @@ const ArticleForm = () => {
           setTitle(a.title || '');
           setContent(a.content || '');
           setAuthor(a.author || '');
-          setFileKey(a.fileKey || '');    // ⭐ lấy sẵn fileKey nếu có
-          setFileUrl(a.fileUrl || '');    // tuỳ bạn có lưu URL hay không
+          setFileKey(a.fileKey || '');    
+          setFileUrl(a.fileUrl || '');    
         }
       } catch (e) {
         if (!ignore) setMsg(e.message || 'Có lỗi xảy ra');
@@ -65,7 +65,7 @@ const ArticleForm = () => {
       const d = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(d?.message || 'Upload thất bại');
       const data = d?.data ?? d;
-      setFileKey(data.fileKey);    // ⭐ LƯU fileKey
+      setFileKey(data.fileKey);    
       setFileUrl(data.fileUrl || ''); // nếu bucket private, đây có thể là presigned URL tạm
       setMsg('Upload file thành công');
     } catch (err) {
@@ -81,7 +81,7 @@ const ArticleForm = () => {
     e.preventDefault();
     setMsg('');
 
-    // ⭐ BẮT BUỘC CÓ fileKey
+    // BẮT BUỘC CÓ fileKey
     if (!fileKey) {
       setMsg('Thiếu fileKey. Hãy chọn file và upload.');
       return;
@@ -93,7 +93,7 @@ const ArticleForm = () => {
         ? `${API_BASE}/articles?articleId=${encodeURIComponent(articleId)}`
         : `${API_BASE}/articles`;
       const method = isEdit ? 'PUT' : 'POST';
-      const body = { title, content, author, fileKey, fileUrl }; // ⭐ GỬI KÈM fileKey
+      const body = { title, content, author, fileKey, fileUrl }; // GỬI KÈM fileKey
 
       const res = await fetch(url, {
         method,

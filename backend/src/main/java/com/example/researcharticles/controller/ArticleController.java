@@ -3,11 +3,13 @@ package com.example.researcharticles.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.researcharticles.dto.request.ArticleResquest;
 import com.example.researcharticles.dto.response.ArticleResponse;
 import com.example.researcharticles.dto.response.ObjectResponse;
+import com.example.researcharticles.model.User;
 import com.example.researcharticles.service.ArticleServiceImpl;
 
 import jakarta.validation.Valid;
@@ -50,9 +52,10 @@ public class ArticleController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ObjectResponse<ArticleResponse>> createArticle(
-        @RequestBody @Valid ArticleResquest articleResquest
-        ) throws Exception {
-        ArticleResponse createdArticle = articleService.createArticle(articleResquest);
+        @RequestBody @Valid ArticleResquest articleResquest,
+        @AuthenticationPrincipal User user
+        ) {
+        ArticleResponse createdArticle = articleService.createArticle(articleResquest, user);
         return ResponseEntity.ok(
                 ObjectResponse.<ArticleResponse>builder()
                         .message("Article created successfully")
@@ -66,9 +69,10 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ObjectResponse<ArticleResponse>> updateArticle(
         @RequestParam("articleId") String articleId, 
-        @RequestBody @Valid ArticleResquest articleResquest
-        ) {
-        ArticleResponse updatedArticle = articleService.updateArticle(articleId, articleResquest);
+        @RequestBody @Valid ArticleResquest articleResquest,
+        @AuthenticationPrincipal User user
+        ) throws Exception {
+        ArticleResponse updatedArticle = articleService.updateArticle(articleId, articleResquest, user);
         return ResponseEntity.ok(
                 ObjectResponse.<ArticleResponse>builder()
                         .message("Article updated successfully")
@@ -88,6 +92,21 @@ public class ArticleController {
                         .message("Article deleted successfully")
                         .status(HttpStatus.OK)
                         .build()
+        );
+    }
+
+    @GetMapping(value = "/search", params = "key")
+    public ResponseEntity<ObjectResponse<List<ArticleResponse>>> searchAuthorOrTitle(
+            @RequestParam("key") String key) {
+
+        var result = articleService.searchAuthorOrTitle(key);
+
+        return ResponseEntity.ok(
+            ObjectResponse.<List<ArticleResponse>>builder()
+                .message("Search successfully")
+                .status(HttpStatus.OK)
+                .data(result)
+                .build()
         );
     }
 }

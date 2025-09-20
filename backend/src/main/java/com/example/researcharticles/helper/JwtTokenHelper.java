@@ -35,7 +35,7 @@ public class JwtTokenHelper {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getAccount());
         claims.put("userId", user.getId());
-        claims.put("role", user.getRole().getName());
+        claims.put("role", user.getRole().toString());
         return createToken(claims, user.getAccount());
     }
 
@@ -43,7 +43,7 @@ public class JwtTokenHelper {
         Map<String, Object> claims = new HashMap<>();
         claims.put("account", admin.getAccount());
         claims.put("adminId", admin.getId());
-        claims.put("role", admin.getRole().getName());
+        claims.put("role", admin.getRole().toString());
         return createToken(claims, admin.getAccount());
     }
 

@@ -1,5 +1,7 @@
 package com.example.researcharticles.dto.response;
 
+import java.time.Instant;
+
 import lombok.*;
 
 @Data
@@ -20,4 +22,12 @@ public class ArticleResponse {
     private String articleKey;
 
     private String articleUrl;
+
+    private String UserId;
+
+    private String UserName;
+
+    private Instant createdAt;
+
+    private Instant updatedAt;
 }

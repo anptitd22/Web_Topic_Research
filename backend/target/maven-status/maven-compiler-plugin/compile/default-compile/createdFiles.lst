@@ -6,7 +6,6 @@ com/example/researcharticles/provider/UserAuthenticationProvider.class
 com/example/researcharticles/configurations/MinioConfig.class
 com/example/researcharticles/configurations/WebSecurityConfig.class
 com/example/researcharticles/component/JwtTokenFilter.class
-com/example/researcharticles/model/Role$RoleBuilder.class
 com/example/researcharticles/helper/JwtTokenHelper.class
 com/example/researcharticles/helper/CheckHelper.class
 com/example/researcharticles/model/Article.class
@@ -21,7 +20,6 @@ com/example/researcharticles/model/BaseDocument.class
 com/example/researcharticles/dto/response/AdminResponse.class
 com/example/researcharticles/dto/request/LoginResquest.class
 com/example/researcharticles/model/Admin$AdminBuilder.class
-com/example/researcharticles/configurations/DataInitializer.class
 com/example/researcharticles/configurations/WebSecurityConfig$1.class
 com/example/researcharticles/helper/FileHelper.class
 com/example/researcharticles/service/ArticleServiceImpl.class
@@ -34,7 +32,6 @@ com/example/researcharticles/repository/ArticleRepository.class
 com/example/researcharticles/repository/UserRepository.class
 com/example/researcharticles/controller/UploadController.class
 com/example/researcharticles/model/User.class
-com/example/researcharticles/model/Role.class
 com/example/researcharticles/dto/response/UserResponse$UserResponseBuilder.class
 com/example/researcharticles/dto/response/ObjectResponse$ObjectResponseBuilder.class
 com/example/researcharticles/exception/GlobalException.class
@@ -50,7 +47,7 @@ com/example/researcharticles/helper/ValidationHelper.class
 com/example/researcharticles/controller/AuthController.class
 com/example/researcharticles/service/UserServiceImpl.class
 com/example/researcharticles/mapper/ArticleMapper.class
-com/example/researcharticles/repository/RoleRepository.class
+com/example/researcharticles/configurations/MongoAuditingConfig.class
 com/example/researcharticles/dto/response/ArticleResponse.class
 com/example/researcharticles/repository/AdminRepository.class
 com/example/researcharticles/ResearchArticlesApplication.class

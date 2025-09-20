@@ -8,7 +8,7 @@ import com.example.researcharticles.model.Article;
 
 @Service
 public class ArticleMapper {
-    public Article toArticle(ArticleResquest resquest) {
+    public Article toArticle(ArticleResquest resquest, String userId, String userName) {
         if (resquest == null) {
             return null;
         }
@@ -18,6 +18,8 @@ public class ArticleMapper {
                 .author(resquest.getAuthor())
                 .articleKey(resquest.getArticleKey())
                 .articleUrl(resquest.getArticleUrl())
+                .UserId(userId)
+                .UserName(userName)
                 .build();
     }
 
@@ -32,6 +34,10 @@ public class ArticleMapper {
                 .author(article.getAuthor())
                 .articleKey(article.getArticleKey())
                 .articleUrl(article.getArticleUrl())
+                .UserId(article.getUserId())
+                .UserName(article.getUserName())
+                .createdAt(article.getCreatedAt())
+                .updatedAt(article.getUpdatedAt())
                 .build();
     }
 }

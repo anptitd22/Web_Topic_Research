@@ -1,15 +1,19 @@
 package com.example.researcharticles.model;
 
-import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.example.researcharticles.constant.RoleName;
+import lombok.*;
 
-@Document("roles")
+@Document("tags")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Role {
+public class Tag {
     @Id private String id;
-    
-    private RoleName name;
+
+    @Indexed(unique = true)
+    private String slug;   
+
+    @Indexed(unique = true)
+    private String name;  
 }

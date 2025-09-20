@@ -13,9 +13,7 @@ import com.example.researcharticles.dto.response.UserResponse;
 import com.example.researcharticles.helper.CheckHelper;
 import com.example.researcharticles.helper.JwtTokenHelper;
 import com.example.researcharticles.mapper.UserMapper;
-import com.example.researcharticles.model.Role;
 import com.example.researcharticles.model.User;
-import com.example.researcharticles.repository.RoleRepository;
 import com.example.researcharticles.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenHelper jwtTokenHelper;
     private final UserMapper mapper;
@@ -45,22 +42,19 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByAccount(registerResquest.getAccount()).isPresent()) {
             throw new Exception("User already exists with account " + registerResquest.getAccount());
         }
-
-        Role role = roleRepository.findByName(registerResquest.getRole().toString())
-                .orElseThrow(() -> new Exception("Role not found: " + registerResquest.getRole().toString()));
         
-        var user = createNewUser(registerResquest, role);
+        var user = createNewUser(registerResquest);
 
         var savedUser = userRepository.save(user);
 
         return mapper.toUserResponse(savedUser);
     }
 
-    public User createNewUser(RegisterResquest registerResquest, Role role) {
+    public User createNewUser(RegisterResquest registerResquest) {
         return User.builder()
                 .account(registerResquest.getAccount())
                 .password(passwordEncoder.encode(registerResquest.getPassword()))
-                .role(role)
+                .role(registerResquest.getRole())
                 .isActive(true)
                 .build();
     }

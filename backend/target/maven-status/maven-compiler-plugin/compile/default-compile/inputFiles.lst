@@ -15,7 +15,6 @@
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/controller/AuthController.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/controller/AdminController.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/dto/response/UserResponse.java
-/home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/model/Role.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/mapper/ArticleMapper.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/model/User.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/provider/UserAuthenticationProvider.java
@@ -23,8 +22,8 @@
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/service/UserService.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/util/CookieUtil.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/service/MinIOService.java
+/home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/configurations/MongoAuditingConfig.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/service/UserServiceImpl.java
-/home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/repository/RoleRepository.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/configurations/AppSecurityBeansConfig.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/dto/request/AdminResquest.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/constant/RoleName.java
@@ -40,7 +39,6 @@
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/helper/JsonHelper.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/repository/UserRepository.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/service/ArticleServiceImpl.java
-/home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/configurations/DataInitializer.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/repository/AdminRepository.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/helper/CheckHelper.java
 /home/tranducan/coder/projects/package_github/CRUD_Topic_DE/research-articles-app/backend/src/main/java/com/example/researcharticles/dto/request/RegisterResquest.java
