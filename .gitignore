@@ -7,4 +7,7 @@ coverage/
 .idea/
 *.log
 *.tmp
-*.swp   
+*.swp
+.venv/
+__pycache__/
+*.pyc   
