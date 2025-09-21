@@ -14,7 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RegisterResquest {
+public class RegisterRequest {
     @NotBlank(message = "Account can not be blank") @Size(max = 100, min = 5)
     private String account;
 

@@ -1,8 +1,10 @@
 package com.example.researcharticles.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -11,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ArticleResquest {
+public class ArticleRequest {
     @NotBlank(message = "Title can not be blank") @Size(max = 255)
     private String title;
 
@@ -21,10 +23,11 @@ public class ArticleResquest {
     private String author;
 
     @NotBlank(message = "Article key is required")
-    @JsonProperty("fileKey")
     private String articleKey; 
 
     @NotBlank(message = "Article URL is required")
-    @JsonProperty("fileUrl")
     private String articleUrl;
+
+    @NotEmpty(message = "TagIds is required")
+    private List<@NotBlank String> tagIds = new ArrayList<>();
 }

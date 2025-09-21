@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { API_BASE } from '../api';
+import { API_BASE } from '../../api/api';
+import { useAuth } from '../../auth/AuthContext';
 
 const LoginForm = ({ onLogin }) => {
     const [account, setAccount] = useState('');
@@ -10,6 +11,7 @@ const LoginForm = ({ onLogin }) => {
     const history = useHistory();
     const location = useLocation();
     const [info, setInfo] = useState('');
+    const { loginAsUser } = useAuth();
 
     // Hiển thị thông báo nếu được chuyển hướng từ trang đăng ký
 
@@ -35,6 +37,7 @@ const LoginForm = ({ onLogin }) => {
             if (res.ok && data.data) {
                 localStorage.setItem('token', data.data);
                 onLogin?.();
+                await loginAsUser(account, password , role);
                 history.replace('/');
             } else {
                 setError(data.message || 'Đăng nhập thất bại');

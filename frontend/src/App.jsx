@@ -1,112 +1,153 @@
-import React, { useEffect, useState } from 'react';
+// src/App.jsx
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
-import { API_BASE } from './api';
-import ArticleList from './components/ArticleList';
-import ArticleForm from './components/ArticleForm';
-import ArticleDetail from './components/ArticleDetail';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import AdminPanel from './components/AdminPanel';
+import { API_BASE } from './api/api';
+import MyArticles from './components/user/MyArticles';
 
-// Guard cho các route cần login
-const ProtectedRoute = ({ component: Comp, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      isLoggedIn ? (
-        <Comp {...props} />
-      ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
-    }
-  />
-);
+// USER pages
+import ArticleList from './components/user/ArticleList';
+import ArticleForm from './components/user/ArticleForm';
+import ArticleDetail from './components/user/ArticleDetail';
 
-// (Tuỳ chọn) chặn vào /login, /register khi đã đăng nhập
-const GuestOnlyRoute = ({ component: Comp, isLoggedIn, redirectTo = '/', ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      isLoggedIn ? <Redirect to={redirectTo} /> : <Comp {...props} />
-    }
-  />
-);
+// AUTH pages
+import LoginForm from './components/auth/LoginForm';
+import RegisterForm from './components/auth/RegisterForm';
 
-const App = () => {
-  // Nếu bạn đang dùng token trong localStorage, giá trị khởi tạo sẽ là true/false theo đó.
-  // Nếu bạn dùng cookie HttpOnly, ban đầu có thể false — sẽ chuyển thành true sau khi ping /auth/me.
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+// ADMIN pages
+import AdminPanel from './components/admin/AdminPanel';
+import AdminLogin from './components/admin/AdminLogin';
 
-  // Nếu dùng cookie HttpOnly: ping /auth/me để xác thực trạng thái đăng nhập
-  useEffect(() => {
-    async function check() {
-      try {
-        const r = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' });
-        if (r.ok) setIsLoggedIn(true);
-        else {
-          localStorage.removeItem('token');
-          setIsLoggedIn(false);
-        }
-      } catch {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-      }
-    }
-    check();
-  }, []);
+import { AuthProvider, useAuth } from './auth/AuthContext';
 
-  const handleLogin = () => setIsLoggedIn(true);
+/* ---------- Guards ---------- */
 
-  const handleLogout = async () => {
-    localStorage.removeItem('token'); // nếu trước đó có lưu
-    try {
-      // nếu backend có xóa cookie ở /auth/logout
-      await fetch(`${API_BASE}/auth/logout`, { method: 'POST', credentials: 'include' });
-    } catch {}
-    setIsLoggedIn(false);
-    // Không cần điều hướng thủ công: nếu đang ở route bảo vệ, ProtectedRoute sẽ tự redirect sang /login
-  };
-
+// Chỉ cho khách vào
+const GuestOnlyRoute = ({ component: Comp, redirectTo = '/', ...rest }) => {
+  const { isLoggedIn } = useAuth();
   return (
-    <Router>
-      <div>
-        <h1>Research Articles Management</h1>
-
-        {isLoggedIn ? (
-          <>
-            <Link to="/">Trang chủ</Link> |{' '}
-            <Link to="/articles/new">Tạo bài viết</Link> |{' '}
-            {/* <Link to="/admin">Admin</Link> |{' '} */}
-            <button onClick={handleLogout}>Đăng xuất</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Đăng nhập</Link> | <Link to="/register">Đăng ký</Link>
-          </>
-        )}
-
-        <Switch>
-          {/* Trang chủ cũng yêu cầu đăng nhập */}
-          <Route path="/" exact component={ArticleList}/>
-
-          {/* Các route cần login */}
-          <ProtectedRoute path="/articles/new" component={ArticleForm} isLoggedIn={isLoggedIn} />
-          <ProtectedRoute path="/articles/edit" component={ArticleForm} isLoggedIn={isLoggedIn} />
-          <ProtectedRoute path="/admin" component={AdminPanel} isLoggedIn={isLoggedIn} />
-
-          {/* Route public */}
-          <ProtectedRoute path="/articles" component={ArticleDetail} isLoggedIn={isLoggedIn}/>
-
-          {/* Không cho vào login/register nếu đã đăng nhập */}
-          <GuestOnlyRoute path="/login" component={() => <LoginForm onLogin={handleLogin} />} isLoggedIn={isLoggedIn} redirectTo="/" />
-          <GuestOnlyRoute path="/register" component={RegisterForm} isLoggedIn={isLoggedIn} redirectTo="/" />
-
-          {/* Fallback */}
-          <Route render={() => <Redirect to="/" />} />
-        </Switch>
-      </div>
-    </Router>
+    <Route
+      {...rest}
+      render={(props) => (isLoggedIn ? <Redirect to={redirectTo} /> : <Comp {...props} />)}
+    />
   );
 };
+
+// Yêu cầu đăng nhập + đúng vai trò
+const RoleRoute = ({ component: Comp, allowed = [], loginPath = '/login', ...rest }) => {
+  const { ready, isLoggedIn, role } = useAuth();
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (!ready) return <div>Đang kiểm tra phiên đăng nhập…</div>;
+        if (!isLoggedIn) return <Redirect to={{ pathname: loginPath, state: { from: props.location } }} />;
+        if (allowed.length && !allowed.includes(role)) return <Redirect to="/403" />;
+        return <Comp {...props} />;
+      }}
+    />
+  );
+};
+
+/* ---------- Nav ---------- */
+const Nav = () => {
+  const { isLoggedIn, role, logout } = useAuth();
+
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <Link to="/">Trang chủ</Link>
+      {role === 'USER'  && <> | <Link to="/articles/new">Tạo bài viết</Link></>}
+      {role === 'ADMIN' && <> | <Link to="/admin">Admin</Link></>}
+      {!isLoggedIn && <> | <Link to="/admin/login">Đăng nhập Admin</Link></>}
+      {' '}|{' '}
+      {isLoggedIn && <> | <Link to="/my-articles">Bài viết của tôi</Link></>}
+      {isLoggedIn ? (
+        <button onClick={logout}>Đăng xuất</button>
+      ) : (
+        <>
+          <Link to="/login">Đăng nhập</Link> | <Link to="/register">Đăng ký</Link>
+        </>
+      )}
+    </div>
+  );
+};
+
+/* ---------- Nhóm route USER ---------- */
+const UserRoutes = () => (
+  <Switch>
+    {/* Public */}
+    <Route path="/" exact component={ArticleList} />
+    <RoleRoute path="/articles" exact component={ArticleDetail} allowed={['USER', 'ADMIN']}/>
+
+    {/* Cần login (USER hoặc ADMIN) */}
+    <RoleRoute path="/articles/new" component={ArticleForm} allowed={['USER', 'ADMIN']} />
+    <RoleRoute path="/articles/edit" component={ArticleForm} allowed={['USER', 'ADMIN']} />
+
+    <RoleRoute path="/my-articles" component={MyArticles} allowed={['USER']} />
+
+    <Route render={() => <Redirect to="/" />} />
+  </Switch>
+);
+
+/* ---------- Nhóm route ADMIN (child) ---------- */
+const AdminRoutes = ({ match }) => (
+  <Switch>
+    <RoleRoute
+      path={`${match.path}`}
+      exact
+      component={AdminPanel}
+      allowed={['ADMIN']}
+      loginPath="/admin/login"   // <-- nếu chưa login admin, sang đúng trang login admin
+    />
+    <Route render={() => <Redirect to={match.path} />} />
+  </Switch>
+);
+
+// AppBody
+<Switch>
+  {/* ĐẶT trang login admin TRƯỚC nhóm /admin */}
+  <GuestOnlyRoute path="/admin/login" component={AdminLogin} />
+
+  {/* KHÔNG exact ở đây để nhận cả /admin và /admin/... */}
+  <Route path="/admin" render={(props) => <AdminRoutes {...props} />} />
+
+  {/* ... các route khác */}
+</Switch>
+
+/* ---------- AppBody ---------- */
+const AppBody = () => {
+  const onLogin = () => { /* AuthContext sẽ cập nhật role/isLoggedIn */ };
+
+  return (
+    <>
+      <h1>Research Articles Management</h1>
+      <Nav />
+      <Switch>
+        {/* 1) Đặt trang đăng nhập admin TRƯỚC nhóm /admin */}
+        <GuestOnlyRoute path="/admin/login" component={AdminLogin} />
+
+        {/* 2) Nhóm ADMIN (không exact để còn nhận /admin/...); bên trong dùng RoleRoute + loginPath */}
+        <Route path="/admin" render={(props) => <AdminRoutes {...props} />} />
+
+        {/* Auth thường */}
+        <GuestOnlyRoute path="/login" component={() => <LoginForm onLogin={onLogin} />} />
+        <GuestOnlyRoute path="/register" component={RegisterForm} />
+
+        {/* Nhóm USER */}
+        <Route path="/" component={UserRoutes} />
+
+        <Route path="/403" render={() => <div>403 - Không đủ quyền</div>} />
+      </Switch>
+    </>
+  );
+};
+
+/* ---------- App ---------- */
+const App = () => (
+  <AuthProvider>
+    <Router>
+      <AppBody />
+    </Router>
+  </AuthProvider>
+);
 
 export default App;

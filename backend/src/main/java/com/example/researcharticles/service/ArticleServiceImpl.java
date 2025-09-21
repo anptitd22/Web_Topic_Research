@@ -1,5 +1,5 @@
 package com.example.researcharticles.service;
-import com.example.researcharticles.dto.request.ArticleResquest;
+import com.example.researcharticles.dto.request.ArticleRequest;
 import com.example.researcharticles.dto.response.ArticleResponse;
 import com.example.researcharticles.helper.CheckHelper;
 import com.example.researcharticles.mapper.ArticleMapper;
@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper mapper;
 
-    public ArticleResponse createArticle(ArticleResquest articleResquest, User user) { 
+    public ArticleResponse createArticle(ArticleRequest articleResquest, User user) { 
 
         var article = mapper.toArticle(articleResquest, user.getId(), user.getUsername());
 
@@ -28,7 +28,7 @@ public class ArticleServiceImpl implements ArticleService {
         return mapper.toArticleResponse(articleSave);
     }
 
-    public ArticleResponse updateArticle(String id, ArticleResquest articleResquest, User user) throws Exception {
+    public ArticleResponse updateArticle(String id, ArticleRequest articleResquest, User user) throws Exception {
 
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found with id " + id));
@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
         return mapper.toArticleResponse(aricleUpdate);
     }
 
-    private void mergerdArticle(Article article, ArticleResquest articleResquest, User user) {
+    private void mergerdArticle(Article article, ArticleRequest articleResquest, User user) {
         article.setTitle(CheckHelper.checkNullAndUpdate(articleResquest.getTitle(), article.getTitle()));
         article.setContent(CheckHelper.checkNullAndUpdate(articleResquest.getContent(), article.getContent()));
         article.setAuthor(CheckHelper.checkNullAndUpdate(articleResquest.getAuthor(), article.getAuthor()));
@@ -47,6 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleUrl(CheckHelper.checkNullAndUpdate(articleResquest.getArticleUrl(), article.getArticleUrl()));
         article.setUserId(CheckHelper.checkNullAndUpdate(user.getId(), article.getUserId()));
         article.setUserName(CheckHelper.checkNullAndUpdate(user.getUsername(), article.getUserName()));
+        article.setTagIds(CheckHelper.checkNullAndUpdate(articleResquest.getTagIds(), article.getTagIds()));
     }
 
     public void deleteArticle(String id) {
@@ -71,6 +72,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     public List<ArticleResponse> searchAuthorOrTitle(String key) {
         var list = articleRepository.searchByTitleOrAuthorRegex(key);
+        return list.stream().map(mapper::toArticleResponse).toList();
+    }
+
+    @Override
+    public List<ArticleResponse> findMyArticles(User user) {
+        var list = articleRepository.findByUserIdOrderByUpdatedAtDesc(user.getId());
         return list.stream().map(mapper::toArticleResponse).toList();
     }
 }

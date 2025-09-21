@@ -1,7 +1,7 @@
 // src/components/ArticleList.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { API_BASE } from '../api';
+import { API_BASE } from '../../api/api';
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);

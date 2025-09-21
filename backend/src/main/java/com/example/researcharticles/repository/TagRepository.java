@@ -2,6 +2,8 @@ package com.example.researcharticles.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface TagRepository extends MongoRepository<String, String> {
+import com.example.researcharticles.model.Tag;
+
+public interface TagRepository extends MongoRepository<Tag, String> {
     
 }

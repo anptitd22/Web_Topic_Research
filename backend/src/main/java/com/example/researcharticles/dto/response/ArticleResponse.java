@@ -1,6 +1,7 @@
 package com.example.researcharticles.dto.response;
 
 import java.time.Instant;
+import java.util.List;
 
 import lombok.*;
 
@@ -26,6 +27,8 @@ public class ArticleResponse {
     private String UserId;
 
     private String UserName;
+
+    private List<String> tagIds;
 
     private Instant createdAt;
 

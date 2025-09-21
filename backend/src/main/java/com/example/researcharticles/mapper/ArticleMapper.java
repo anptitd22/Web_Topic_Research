@@ -2,13 +2,13 @@ package com.example.researcharticles.mapper;
 
 import org.springframework.stereotype.Service;
 
-import com.example.researcharticles.dto.request.ArticleResquest;
+import com.example.researcharticles.dto.request.ArticleRequest;
 import com.example.researcharticles.dto.response.ArticleResponse;
 import com.example.researcharticles.model.Article;
 
 @Service
 public class ArticleMapper {
-    public Article toArticle(ArticleResquest resquest, String userId, String userName) {
+    public Article toArticle(ArticleRequest resquest, String userId, String userName) {
         if (resquest == null) {
             return null;
         }
@@ -18,8 +18,9 @@ public class ArticleMapper {
                 .author(resquest.getAuthor())
                 .articleKey(resquest.getArticleKey())
                 .articleUrl(resquest.getArticleUrl())
-                .UserId(userId)
-                .UserName(userName)
+                .userId(userId)
+                .userName(userName)
+                .tagIds(resquest.getTagIds())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class ArticleMapper {
                 .articleUrl(article.getArticleUrl())
                 .UserId(article.getUserId())
                 .UserName(article.getUserName())
+                .tagIds(article.getTagIds())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build();

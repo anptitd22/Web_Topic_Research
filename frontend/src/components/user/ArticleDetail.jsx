@@ -1,7 +1,7 @@
 // src/components/ArticleDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { API_BASE } from '../api';
+import { API_BASE } from '../../api/api';
 
 const ArticleDetail = () => {
   const { search } = useLocation();

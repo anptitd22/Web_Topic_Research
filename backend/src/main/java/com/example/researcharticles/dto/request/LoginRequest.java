@@ -14,11 +14,11 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class LoginResquest {
+public class LoginRequest {
     @NotBlank(message = "Account can not be blank") @Size(max = 100, min = 5)
     private String account;
 
-    @NotBlank(message = "Password can not be blank") @Size(max = 255, min = 10)
+    @NotBlank(message = "Password can not be blank") @Size(max = 255, min = 6)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

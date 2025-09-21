@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.researcharticles.dto.request.LoginResquest;
-import com.example.researcharticles.dto.request.RegisterResquest;
+import com.example.researcharticles.dto.request.LoginRequest;
+import com.example.researcharticles.dto.request.RegisterRequest;
 import com.example.researcharticles.dto.response.ObjectResponse;
 import com.example.researcharticles.dto.response.UserResponse;
 import com.example.researcharticles.helper.ValidationHelper;
@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ObjectResponse<?>> createUser(
-        @RequestBody RegisterResquest registerDTO,
+        @RequestBody RegisterRequest registerDTO,
         BindingResult result
     ) throws Exception {
         if (result.hasErrors()) {
@@ -55,7 +55,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ObjectResponse<?>> loginUser(
-        @RequestBody LoginResquest loginDTO,
+        @RequestBody LoginRequest loginDTO,
         BindingResult result,
         HttpServletRequest request,
         HttpServletResponse response

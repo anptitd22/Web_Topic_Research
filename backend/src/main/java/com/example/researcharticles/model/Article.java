@@ -44,14 +44,15 @@ public class Article extends BaseDocument {
     @Field("user_id")
     @Indexed
     @NotBlank(message = "User ID is required")
-    private String UserId;      
+    private String userId;      
 
     @Field("user_name")
     @NotBlank(message = "User Name is required")
-    private String UserName;
+    private String userName;
 
     @Indexed
     @Field("tag_ids")
     @Builder.Default
+    @Size(min = 1, max = 5, message = "An article must have between 1 and 5 tags")
     private List<String> tagIds = new ArrayList<>();
 }

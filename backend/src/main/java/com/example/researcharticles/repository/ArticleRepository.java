@@ -13,4 +13,6 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     List<Article> searchByTitleOrAuthorRegex(String regex);
 
     List<Article> findByTagIdsIn(Collection<String> tagIds);
+
+    List<Article> findByUserIdOrderByUpdatedAtDesc(String userId);
 }
