@@ -92,19 +92,4 @@ public class AuthController {
                         .build()
         );
     }
-
-    @GetMapping("/me")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ObjectResponse<UserResponse>> getCurrentUser(
-        @AuthenticationPrincipal User user
-    ) throws Exception {
-        var userResponse = userService.getCurrentUser(user);
-        return ResponseEntity.ok(
-                ObjectResponse.<UserResponse>builder()
-                        .message("Current user retrieved successfully")
-                        .status(HttpStatus.OK)
-                        .data(userResponse)
-                        .build()
-        );
-    }
 }

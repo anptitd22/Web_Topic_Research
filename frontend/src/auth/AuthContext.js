@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        const r1 = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' });
+        const r1 = await fetch(`${API_BASE}/users/me`, { credentials: 'include' });
         if (r1.ok) {
           const d = await r1.json().catch(() => ({}));
           setIsLoggedIn(true);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) throw new Error(d?.message || 'Đăng nhập thất bại');
 
     // lấy profile & role
-    const me = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' });
+    const me = await fetch(`${API_BASE}/users/me`, { credentials: 'include' });
     const md = await me.json().catch(() => ({}));
     if (!me.ok) throw new Error(md?.message || 'Không lấy được thông tin người dùng');
 
