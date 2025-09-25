@@ -137,9 +137,9 @@ const ArticleDetail = () => {
 
       <div style={{ marginTop: 16 }}>
         <Link to="/">Quay lại danh sách</Link>{' '}
-        <Link to={`/articles/edit?articleId=${encodeURIComponent(article.id || article._id)}`}>
+        {/* <Link to={`/articles/edit?articleId=${encodeURIComponent(article.id || article._id)}`}>
           Sửa
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

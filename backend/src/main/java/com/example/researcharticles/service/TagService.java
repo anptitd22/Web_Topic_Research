@@ -11,4 +11,5 @@ public interface TagService {
     public void deleteTag(String id);
     public TagResponse getTagById(String id);
     public List<TagResponse> findAllTags();
+    public TagResponse findById(String tagId);
 }

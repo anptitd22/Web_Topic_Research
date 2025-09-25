@@ -84,7 +84,8 @@ public class WebSecurityConfig {
                                     String.format("%s/admin/**", apiPrefix),
                                     String.format("%s/auth/**", apiPrefix),
                                     String.format("%s/uploads/**", apiPrefix),
-                                    String.format("%s/admin/**", apiPrefix)
+                                    String.format("%s/admin/**", apiPrefix),
+                                    String.format("%s/tags/**", apiPrefix)
                             ).permitAll().anyRequest().authenticated();
                 }).build();
     }

@@ -2,10 +2,7 @@ package com.example.researcharticles.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +13,6 @@ import com.example.researcharticles.dto.request.RegisterRequest;
 import com.example.researcharticles.dto.response.ObjectResponse;
 import com.example.researcharticles.dto.response.UserResponse;
 import com.example.researcharticles.helper.ValidationHelper;
-import com.example.researcharticles.model.User;
 import com.example.researcharticles.service.UserServiceImpl;
 import com.example.researcharticles.util.CookieUtil;
 

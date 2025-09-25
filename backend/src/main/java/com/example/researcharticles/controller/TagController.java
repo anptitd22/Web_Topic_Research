@@ -57,11 +57,25 @@ public class TagController {
     ) {
         var list = tagService.findAllTags();
         return ResponseEntity.ok(
-            ObjectResponse.<List<TagResponse>>builder()
-            .message("Tags retrieved successfully")
-            .status(HttpStatus.OK)
-            .data(list)
-            .build()
+                ObjectResponse.<List<TagResponse>>builder()
+                        .message("Tags retrieved successfully")
+                        .status(HttpStatus.OK)
+                        .data(list)
+                        .build()
+        );
+    }
+
+    @GetMapping(params = "tagId")
+    public ResponseEntity<ObjectResponse<TagResponse>> getTag(
+        @RequestParam("tagId") String tagId
+    ) {
+        var TagResponse = tagService.findById(tagId);
+        return ResponseEntity.ok(
+                ObjectResponse.<TagResponse>builder()
+                        .message("Tags retrieved successfully")
+                        .status(HttpStatus.OK)
+                        .data(TagResponse)
+                        .build()
         );
     }
 

@@ -62,4 +62,11 @@ public class TagServiceImpl implements TagService {
                 .toList();
         return tagResponses;
     }
+
+    @Override
+    public TagResponse findById(String tagId) {
+        Tag existingTag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new RuntimeException("Tag not found with id: " + tagId));
+        return mapper.toTagResponse(existingTag);
+    }
 }

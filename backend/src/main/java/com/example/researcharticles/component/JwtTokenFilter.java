@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.method.P;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -118,6 +117,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("%s/articles", apiPrefix), "GET"),
                 Pair.of(String.format("%s/articles/search/**", apiPrefix), "GET"),
                 Pair.of(String.format("%s/tags/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/tags", apiPrefix), "GET"),
                 Pair.of(String.format("%s/admin/login", apiPrefix), "POST")
         );
         String requestPath = request.getServletPath();

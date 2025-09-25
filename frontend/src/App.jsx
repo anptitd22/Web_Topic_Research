@@ -17,6 +17,11 @@ import RegisterForm from './components/auth/RegisterForm';
 import AdminPanel from './components/admin/AdminPanel';
 import AdminLogin from './components/admin/AdminLogin';
 
+import Header from './components/user/Header';
+import Footer from './components/user/Footer';
+
+import './index.css';
+
 import { AuthProvider, useAuth } from './auth/AuthContext';
 
 /* ---------- Guards ---------- */
@@ -56,10 +61,11 @@ const Nav = () => {
     <div style={{ marginBottom: 12 }}>
       <Link to="/">Trang chủ</Link>
       {role === 'USER'  && <> | <Link to="/articles/new">Tạo bài viết</Link></>}
-      {role === 'ADMIN' && <> | <Link to="/admin">Admin</Link></>}
-      {!isLoggedIn && <> | <Link to="/admin/login">Đăng nhập Admin</Link></>}
+      {/* {role === 'ADMIN' && <> | <Link to="/admin">Admin</Link></>} */}
+      {/* {!isLoggedIn && <> | <Link to="/admin/login">Đăng nhập Admin</Link></>} */}
       {' '}|{' '}
-      {isLoggedIn && <> | <Link to="/my-articles">Bài viết của tôi</Link></>}
+      {role === 'USER' && <> | <Link to="/my-articles">Bài viết của tôi</Link></>}
+      {role === 'ADMIN' && <> | <Link to="/admin">Quản Lý</Link></>}
       {isLoggedIn ? (
         <button onClick={logout}>Đăng xuất</button>
       ) : (
@@ -118,26 +124,30 @@ const AppBody = () => {
   const onLogin = () => { /* AuthContext sẽ cập nhật role/isLoggedIn */ };
 
   return (
-    <>
-      <h1>Research Articles Management</h1>
-      <Nav />
-      <Switch>
-        {/* 1) Đặt trang đăng nhập admin TRƯỚC nhóm /admin */}
-        <GuestOnlyRoute path="/admin/login" component={AdminLogin} />
+    // <div className="app">
+    //   <Header />
+      <main className="main-content">
+        <h1>Research Articles Management</h1>
+        <Nav />
+        <Switch>
+          {/* 1) Đặt trang đăng nhập admin TRƯỚC nhóm /admin */}
+          <GuestOnlyRoute path="/admin/login" component={AdminLogin} />
 
-        {/* 2) Nhóm ADMIN (không exact để còn nhận /admin/...); bên trong dùng RoleRoute + loginPath */}
-        <Route path="/admin" render={(props) => <AdminRoutes {...props} />} />
+          {/* 2) Nhóm ADMIN (không exact để còn nhận /admin/...); bên trong dùng RoleRoute + loginPath */}
+          <Route path="/admin" render={(props) => <AdminRoutes {...props} />} />
 
-        {/* Auth thường */}
-        <GuestOnlyRoute path="/login" component={() => <LoginForm onLogin={onLogin} />} />
-        <GuestOnlyRoute path="/register" component={RegisterForm} />
+          {/* Auth thường */}
+          <GuestOnlyRoute path="/login" component={() => <LoginForm onLogin={onLogin} />} />
+          <GuestOnlyRoute path="/register" component={RegisterForm} />
 
-        {/* Nhóm USER */}
-        <Route path="/" component={UserRoutes} />
+          {/* Nhóm USER */}
+          <Route path="/" component={UserRoutes} />
 
-        <Route path="/403" render={() => <div>403 - Không đủ quyền</div>} />
-      </Switch>
-    </>
+          <Route path="/403" render={() => <div>403 - Không đủ quyền</div>} />
+        </Switch>
+      </main>
+      // <Footer />
+    /* </div> */
   );
 };
 
